@@ -34,7 +34,7 @@ function displayMoviesData(moviesList, displayId) {
     /* Iterates through a list of OMDB movies and adds them to the DOM */
     var htmlString = '';
     moviesList.forEach(function(movie) {
-        htmlString += '<div data-imdbID="' + movie.imdbID + '"><h4>' + movie.Title + '</h4>';
+        htmlString += '<div class="movie" data-imdbID="' + movie.imdbID + '"><h4>' + movie.Title + '</h4>';
         htmlString += '<img src="' + movie.Poster + '" />';
         htmlString += addButton(displayId);
         htmlString += '</div>';
