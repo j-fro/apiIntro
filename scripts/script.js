@@ -5,6 +5,7 @@ $(document).ready(function() {
     console.log('jq ready');
     $('#searchButton').on('click', function() {
         var movieTitle = $('#searchIn').val();
+        validateUserInput(movieTitle);
         // Assemble search URL
         var searchUrl = 'http://www.omdbapi.com/?s=' + movieTitle;
         console.log(searchUrl);
@@ -79,5 +80,13 @@ function searchSearchResults(idToFind, searchArray) {
         if (searchArray[i].imdbID === idToFind) {
             return searchArray[i];
         }
+    }
+}
+
+function validateUserInput(inputString) {
+    if (inputString === "") {
+      alert("Please enter something!");
+    } else if (Math.random() < 0.05) {
+      alert("Come on, can't you pick a better movie you weirdo?!");
     }
 }
