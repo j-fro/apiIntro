@@ -3,7 +3,6 @@ var wishlist = [];
 
 $(document).ready(function() {
     console.log('jq ready');
-
     $('#searchButton').on('click', function() {
         var movieTitle = $('#searchIn').val();
         // Assemble search URL
@@ -52,6 +51,8 @@ function addButton(displayId) {
 }
 
 function addToWishlist(idToFind) {
+    /* Finds a movie in the search results based on ID and adds it to the
+    wishlist */
     // Find the movie that matches the selected ID
     var movie = searchSearchResults(idToFind, searchResults);
     wishlist.push(movie);
@@ -65,13 +66,15 @@ function addToWishlist(idToFind) {
 }
 
 function removeFromWishlist(idToFind, searchArray) {
+    /* Finds a movie based on ID and removes it from the wishlist arrray */
     for (var i = 0; i < searchArray.length; i++) {
         searchArray.splice(i, 1);
     }
 }
 
 function searchSearchResults(idToFind, searchArray) {
-    /* Looks through the search results array to find a movie with a matching ID */
+    /* Looks through the search results array to find a movie with a matching
+    ID */
     for (var i = 0; i < searchArray.length; i++) {
         if (searchArray[i].imdbID === idToFind) {
             return searchArray[i];
