@@ -21,39 +21,61 @@ $(document).ready(function() {
 function parseMovieData(movieData) {
     /* Parses movie data from API call and displays it on the DOM */
     console.log("Search data:", movieData.Search);
-    searchResults = searchResults.concat(movieData.Search);
+    searchResults = movieData.Search;
     console.log("New array:", searchResults);
-    displayMoviesData(searchResults);
+    displayMoviesData(searchResults, '#moviesDisplay');
     $('.addToWishlist').on('click', function() {
         var imdbId = $(this).parent().data('imdbid');
         addToWishlist(imdbId);
     });
 }
 
-function displayMoviesData(moviesList) {
+function displayMoviesData(moviesList, displayId) {
     /* Iterates through a list of OMDB movies and adds them to the DOM */
     var htmlString = '';
     moviesList.forEach(function(movie) {
         htmlString += '<div data-imdbID="' + movie.imdbID + '"><h4>' + movie.Title + '</h4>';
         htmlString += '<img src="' + movie.Poster + '" />';
-        htmlString += '<button class="addToWishlist">Add to Wishlist</button>';
+        htmlString += addButton(displayId);
         htmlString += '</div>';
     });
-    $('#moviesDisplay').html(htmlString);
+    $(displayId).html(htmlString);
+}
+
+function addButton(displayId) {
+    if (displayId === '#moviesDisplay') {
+        return '<button class="addToWishlist">Add to Wishlist</button>';
+    } else if (displayId === '#wishlistBody') {
+        return '<button class="removeFromWishlist">Remove</button>';
+    }
+
 }
 
 function addToWishlist(idToFind) {
+    // Find the movie that matches the selected ID
     var movie = searchSearchResults(idToFind, searchResults);
-    console.log(movie);
     wishlist.push(movie);
+    displayMoviesData(wishlist, '#wishlistBody');
+    // Wire up the remove button to delete the item from the wishlist
+    $('.removeFromWishlist').on('click', function() {
+        var imdbID = $(this).parent().data('imdbid');
+        removeFromWishlist(imdbID, wishlist);
+        displayMoviesData(wishlist, '#wishlistBody');
+    });
+}
+
+function removeFromWishlist(idToFind, searchArray) {
+    for (var i = 0; i < searchArray.length; i++) {
+        searchArray.splice(i, 1);
+    }
 }
 
 function searchSearchResults(idToFind, searchArray) {
     console.log("ID: ", idToFind);
     /* Looks through the search results array to find a movie with a matching ID */
     for (var i = 0; i < searchArray.length; i++) {
-      if (searchArray[i].imdbID === idToFind) {
-        return searchArray[i];
-      }
+        if (searchArray[i].imdbID === idToFind) {
+            return searchArray[i];
+        }
     }
 }
